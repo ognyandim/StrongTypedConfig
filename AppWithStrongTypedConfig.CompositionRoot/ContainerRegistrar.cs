@@ -3,6 +3,7 @@ using System.Collections;
 using System.Configuration;
 using AppWithStrongTypedConfig.Configuration;
 using AppWithStrongTypedConfig.ModuleOne;
+using AppWithStrongTypedConfig.ModuleOne.Interfaces;
 using Castle.Components.DictionaryAdapter;
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel;
@@ -23,9 +24,18 @@ namespace AppWithStrongTypedConfig.CompositionRoot
 
             container.Register(
                 Component.For<IConsoleSettings>().UsingFactoryMethod(GetGlobalUserConsoleSettings),
-                Component.For<IEnvironmentSettings>().UsingFactoryMethod(GetLiveEnvironmentSettings).LifestyleTransient(),
-                Component.For<IProgramServiceConfigDependent>().ImplementedBy<ProgramServiceConfigDependent>().LifestyleTransient(),
-                Component.For<IApplicationConfiguration>().UsingFactoryMethod(() => new DictionaryAdapterFactory().GetAdapter<IApplicationConfiguration>(ConfigurationManager.AppSettings)).LifestyleTransient()
+                Component.For<IEnvironmentSettings>()
+                    .UsingFactoryMethod(GetLiveEnvironmentSettings)
+                    .LifestyleTransient(),
+                Component.For<IProgramServiceConfigDependent>()
+                    .ImplementedBy<ProgramServiceConfigDependent>()
+                    .LifestyleTransient(),
+                Component.For<IApplicationConfiguration>()
+                    .UsingFactoryMethod(
+                        () =>
+                            new DictionaryAdapterFactory().GetAdapter<IApplicationConfiguration>(
+                                ConfigurationManager.AppSettings))
+                    .LifestyleTransient()
                 );
             Container = container;
         }
@@ -37,15 +47,17 @@ namespace AppWithStrongTypedConfig.CompositionRoot
 
         private static IEnvironmentSettings GetLiveEnvironmentSettings(IKernel k, CreationContext c)
         {
-            string envSet1 = Environment.CurrentDirectory;
-            int envSet2 = Environment.OSVersion.Version.Major;
+            var envSet1 = Environment.CurrentDirectory;
+            var envSet2 = Environment.OSVersion.Version.Major;
 
-            long envSet3 = DateTime.UtcNow.Ticks;
-            IEnvironmentSettings envSet = new DictionaryAdapterFactory().GetAdapter<IEnvironmentSettings>(
-                new Hashtable() { 
-                    { "EnvironmentSetting1", envSet1 }, 
-                    { "EnvironmentSetting2", envSet2 },
-                    { "EnvironmentSettingWhichChanges", envSet3}}
+            var envSet3 = DateTime.UtcNow.Ticks;
+            var envSet = new DictionaryAdapterFactory().GetAdapter<IEnvironmentSettings>(
+                new Hashtable
+                {
+                    {"EnvironmentSetting1", envSet1},
+                    {"EnvironmentSetting2", envSet2},
+                    {"EnvironmentSettingWhichChanges", envSet3}
+                }
                 );
 
             return envSet;

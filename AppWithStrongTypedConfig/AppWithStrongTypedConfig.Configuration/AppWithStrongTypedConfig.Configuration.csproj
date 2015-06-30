@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="GlobalUserConsoleSettings.cs" />
     <Compile Include="IConsoleSettings.cs" />
-    <Compile Include="IProgramServiceConfigDependent.cs" />
     <Compile Include="IApplicationConfiguration.cs" />
     <Compile Include="IEnvironmentSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

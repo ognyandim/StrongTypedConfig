@@ -2,13 +2,14 @@
 using System.Collections;
 using AppWithStrongTypedConfig.CompositionRoot;
 using AppWithStrongTypedConfig.Configuration;
+using AppWithStrongTypedConfig.ModuleOne.Interfaces;
 using Castle.Components.DictionaryAdapter;
 
 namespace AppWithStrongTypedConfig
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             ContainerRegistrar.SetupContainer();
             GetUserSettings();
@@ -26,22 +27,23 @@ namespace AppWithStrongTypedConfig
 
         private static void GetUserSettings()
         {
-
-
             Console.WriteLine("Enter setting 1");
             Console.WriteLine();
 
-            string setting1 = Console.ReadLine();
+            var setting1 = Console.ReadLine();
 
-            Console.WriteLine("Enter setting 2");
+            Console.WriteLine("Enter int setting 2");
             Console.WriteLine();
 
-            string setting2 = Console.ReadLine();
+            string setting2String = Console.ReadLine();
+            int setting2 = Convert.ToInt32(setting2String);
 
             GlobalUserConsoleSettings.ConsoleSettings = new DictionaryAdapterFactory().GetAdapter<IConsoleSettings>(
-                new Hashtable() { 
-                { "ConsoleSetting1", setting1 }, 
-                { "ConsoleSetting2", setting2 } }
+                new Hashtable
+                {
+                    {"ConsoleSetting1", setting1},
+                    {"ConsoleSetting2", setting2}
+                }
                 );
         }
     }

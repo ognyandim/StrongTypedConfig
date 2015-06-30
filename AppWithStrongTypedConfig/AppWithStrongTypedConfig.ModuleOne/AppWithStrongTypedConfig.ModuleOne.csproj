@@ -47,6 +47,10 @@
       <Project>{F01D322C-386F-465B-94BF-2D303C0DB141}</Project>
       <Name>AppWithStrongTypedConfig.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AppWithStrongTypedConfig.ModuleOne.Interfaces\AppWithStrongTypedConfig.ModuleOne.Interfaces.csproj">
+      <Project>{1DA5D9A8-0D9C-456D-8A59-A49953A4C560}</Project>
+      <Name>AppWithStrongTypedConfig.ModuleOne.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
